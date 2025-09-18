@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembentangan Proposal - Galeri Padi Sekinchan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            padding: 40px;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .slide-header h1 {
+            font-size: 3.5rem;
+            color: #4a90e2;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-header h2 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .slide-header h3 {
+            font-size: 1.8rem;
+            color: #666;
+            font-weight: 300;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            height: 80px;
+            width: auto;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member h4 {
+            font-size: 1.3rem;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .team-member p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .content-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .content-text h2 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .content-text p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .content-text ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-text li {
+            margin-bottom: 10px;
+        }
+
+        .image-container {
+            text-align: center;
+        }
+
+        .content-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            z-index: 1000;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-box {
+            background: rgba(74, 144, 226, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #4a90e2;
+        }
+
+        .feature-box h4 {
+            color: #4a90e2;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .conclusion-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: center;
+            padding: 40px;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 15px;
+            border: 2px solid #4a90e2;
+        }
+
+        .references {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .references ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .references li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .references li:before {
+            content: "•";
+            color: #4a90e2;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+            }
+
+            .slide-content {
+                padding: 20px;
+            }
+
+            .slide-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .slide-header h2 {
+                font-size: 2rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Title Slide -->
+    <div class="slide active">
+        <div class="slide-content">
+            <div class="logo-container">
+                <div style="color: #4a90e2; font-size: 2rem; font-weight: bold;">UniSel</div>
+                <div style="color: #667eea; font-size: 1.8rem; font-weight: bold;">FPSS</div>
+            </div>
+            <div class="slide-header">
+                <h1>PEMBENTANGAN PROPOSAL</h1>
+                <h3>GALERI PADI SEKINCHAN</h3>
+                <h3 style="margin-top: 40px; color: #4a90e2;">PENGAJIAN SELANGOR</h3>
+                <h3 style="color: #666;">KUMPULAN 6</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Team Members -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2>Ahli Kumpulan</h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h4>Kamaputra bin Kamaruddin</h4>
+                    <p>4242002471</p>
+                </div>
+                <div class="team-member">
+                    <h4>Muhammad Hakimi bin Sa'ari</h4>
+                    <p>4242002411</p>
+                </div>
+                <div class="team-member">
+                    <h4>Mohamad Fikri bin Mohd Sahar</h4>
+                    <p>4242002441</p>
+                </div>
+                <div class="team-member">
+                    <h4>Danial bin Aidil Zaimi</h4>
+                    <p>4242002081</p>
+                </div>
+                <div class="team-member">
+                    <h4>Tengku Azrin bin Tengku Ahmad</h4>
+                    <p>4242002871</p>
+                </div>
+                <div class="team-member">
+                    <h4>Zaim Kasyful Azhim bin Zulkifli</h4>
+                    <p>4242002771</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Introduction -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-grid">
+                <div class="content-text">
+                    <h2>1.0 Pengenalan</h2>
+                    <p>Galeri Padi Sekinchan merupakan destinasi pendidikan yang unik yang memaparkan proses lengkap penanaman dan pemprosesan padi di Malaysia. Terletak di salah satu kawasan pengeluaran beras terbesar di Selangor, galeri ini menawarkan pengalaman pembelajaran interaktif tentang industri pertanian padi tempatan.</p>
+                    
+                    <ul>
+                        <li><strong>Lokasi:</strong> Sekinchan, Selangor, berhampiran dengan sawah padi yang luas.</li>
+                        <li><strong>Tarikan utama:</strong> Kilang beras yang beroperasi dengan galeri pendidikan yang memaparkan proses pertanian padi dari ladang hingga ke meja.</li>
+                        <li><strong>Aktiviti:</strong> Lawatan berpandu, demonstrasi mesin pemprosesan, dan pengalaman pembelajaran interaktif.</li>
+                        <li><strong>Warisan dan Budaya:</strong> Memelihara tradisi pertanian padi Malaysia dan mendidik pengunjung tentang kepentingan industri ini.</li>
+                        <li><strong>Popular untuk:</strong> Kunjungan pendidikan, keluarga, dan pelancong yang berminat dengan pertanian tempatan.</li>
+                    </ul>
+                </div>
+                <div class="image-container">
+                    <img src="paddy1.jpg" alt="Galeri Padi Sekinchan" class="content-image" style="width: 400px; height: 300px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Methodology -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-grid">
+                <div class="image-container">
+                    <img src="images.jpeg" alt="Sawah Padi Sekinchan" class="content-image" style="width: 400px; height: 300px; object-fit: cover;">
+                </div>
+                <div class="content-text">
+                    <h2>2.0 Metodologi</h2>
+                    <p>Galeri Padi Sekinchan di Selangor merupakan destinasi pendidikan pertanian yang terkenal, menawarkan pembelajaran tentang industri padi, proses pemprosesan beras, serta pelbagai aktiviti pembelajaran interaktif untuk pengunjung. Selain menjadi tarikan pelancong, galeri ini juga sesuai untuk kajian dalam bidang pertanian, ekonomi, dan pendidikan muzium.</p>
+                    
+                    <p>Dalam kajian, metodologi kuantitatif boleh digunakan untuk mengukur tahap pengetahuan pelawat tentang industri padi Malaysia melalui soal selidik, manakala metodologi kualitatif (pilihan) melalui temu bual pula dapat memahami persepsi pengunjung terhadap kualiti pembelajaran, kemudahan, dan pengalaman lawatan secara keseluruhan. Kajian kes juga boleh digunakan untuk menilai keberkesanan aktiviti pendidikan dan program pemeliharaan warisan pertanian yang dianjurkan oleh pihak galeri.</p>
+                    
+                    <p>Secara keseluruhannya, gabungan metodologi ini memberikan pemahaman yang mendalam mengenai peranan Galeri Padi Sekinchan dalam memelihara warisan pertanian serta mendidik masyarakat dan pelancong tentang kepentingan industri padi tempatan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Analysis and Discussion -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-text">
+                <h2>3.0 Analisis Dan Diskusi</h2>
+                <div class="two-column">
+                    <div>
+                        <h3 style="color: #4a90e2; margin-bottom: 20px;">Kelebihan:</h3>
+                        <p>Galeri Padi Sekinchan di Sekinchan merupakan destinasi pendidikan pertanian yang popular kerana koleksi pameran yang menarik, proses pemprosesan beras yang boleh dilihat secara langsung, serta suasana yang mendidik dan menginspirasi. Pengunjung boleh menikmati pelbagai aktiviti seperti menjelajah galeri, mengenali proses pertanian padi, menyertai lawatan berpandu, dan mengambil bahagian dalam program pendidikan yang disediakan. Lawatan ke galeri ini mengambil masa sekitar 20 hingga 30 minit dan sesuai untuk semua peringkat umur.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #4a90e2; margin-bottom: 20px;">Sumbangan kepada Eko-pelancongan:</h3>
+                        <p>Galeri Padi Sekinchan menyumbang kepada pelancongan pendidikan dan pertanian dengan memelihara warisan industri padi negeri Selangor serta menarik pelawat yang berminat dalam bidang pertanian dan pemprosesan makanan. Sebagai pusat pembelajaran pertanian, galeri ini membantu memelihara pengetahuan tradisional dan memperkasa pemahaman masyarakat terhadap industri pertanian melalui pendekatan pembelajaran yang interaktif. Pada masa yang sama, kehadiran pelancong turut menyumbang kepada ekonomi setempat melalui pembelian produk tempatan, penginapan, dan aktiviti pelancongan lain.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Findings -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-grid">
+                <div class="content-text">
+                    <h2>4.0 Dapatan / Hasil Kajian</h2>
+                    
+                    <h3 style="color: #4a90e2; margin-bottom: 15px;">Kepentingan program?</h3>
+                    <ul>
+                        <li>Memberi pendedahan kepada orang ramai tentang kepentingan industri pertanian padi Malaysia.</li>
+                        <li>Menarik lebih ramai pelawat untuk datang ke Galeri Padi Sekinchan.</li>
+                        <li>Menjadikan Galeri Padi Sekinchan sebagai lokasi pilihan untuk aktiviti pendidikan, eksplorasi pertanian, dan pembelajaran industri makanan.</li>
+                    </ul>
+
+                    <h3 style="color: #4a90e2; margin-top: 30px; margin-bottom: 15px;">Tarikan Utama di Galeri Padi Sekinchan</h3>
+                    <ul>
+                        <li><strong>Kilang pemprosesan beras:</strong> Melihat proses pemprosesan padi menjadi beras secara langsung.</li>
+                        <li><strong>Pameran interaktif:</strong> Menampilkan peralatan tradisional dan moden untuk pertanian padi.</li>
+                        <li><strong>Pembelajaran industri:</strong> Menyediakan penerangan tentang teknologi pertanian, kaedah penanaman, dan sistem pengairan.</li>
+                        <li><strong>Produk tempatan:</strong> Beberapa ruang pameran menjual produk beras dan makanan berasaskan beras.</li>
+                        <li><strong>Kawasan sawah padi:</strong> Pemandangan sawah padi Sekinchan yang terkenal dengan pengeluaran beras berkualiti tinggi.</li>
+                    </ul>
+                </div>
+                <div class="image-container">
+                    <img src="images (1).jpeg" alt="Pemprosesan Padi" class="content-image" style="width: 400px; height: 300px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Video Storyline -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-grid">
+                <div class="image-container">
+                    <img src="img.jpg" alt="Aktiviti di Galeri Padi" class="content-image" style="width: 400px; height: 300px; object-fit: cover;">
+                </div>
+                <div class="content-text">
+                    <h2>5.0 Jalan Cerita Video</h2>
+                    
+                    <h3 style="color: #4a90e2; margin-bottom: 15px;">Pengenalan Video:</h3>
+                    <ul>
+                        <li>Membawa penonton mengenali Galeri Padi Sekinchan, salah satu destinasi pendidikan pertanian yang menjadi tumpuan pembelajaran tentang industri padi di Selangor.</li>
+                        <li>Video menunjukkan perjalanan kumpulan ke Galeri Padi Sekinchan</li>
+                        <li>Host sedang bercakap sepanjang perjalanan</li>
+                    </ul>
+
+                    <h3 style="color: #4a90e2; margin-top: 25px; margin-bottom: 15px;">Suasana di Galeri Padi Sekinchan</h3>
+                    <ul>
+                        <li>Visual menunjukkan keunikan di Galeri Padi Sekinchan seperti proses pemprosesan beras, mesin pertanian, serta suasana pembelajaran di sekitar kawasan galeri.</li>
+                        <li>Aksi pengunjung: orang mengambil gambar pembelajaran, mengikuti lawatan berpandu, atau melihat demonstrasi proses pemprosesan beras dan menikmati suasana pendidikan galeri.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Video Storyline Continued -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-text">
+                <h2>5.0 Jalan Cerita Video</h2>
+                
+                <h3 style="color: #4a90e2; margin-bottom: 20px;">Keunikan Pembelajaran di Galeri Padi Sekinchan</h3>
+                
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <h4>Pengalaman Pendidikan yang Unik</h4>
+                        <p>Pembelajaran interaktif dan demonstrasi langsung memberikan pengalaman pendidikan yang menarik tentang industri pertanian padi.</p>
+                    </div>
+                    
+                    <div class="feature-box">
+                        <h4>Teknologi Pertanian Terkini</h4>
+                        <p>Pameran teknologi moden dalam pemprosesan beras dan sistem pertanian yang canggih.</p>
+                    </div>
+                    
+                    <div class="feature-box">
+                        <h4>Warisan Pertanian Malaysia</h4>
+                        <p>Memelihara dan mempamerkan tradisi pertanian padi yang menjadi tulang belakang ekonomi tempatan.</p>
+                    </div>
+                    
+                    <div class="feature-box">
+                        <h4>Produk Berkualiti Tinggi</h4>
+                        <p>Sekinchan terkenal dengan pengeluaran beras berkualiti tinggi dan menjadi salah satu kawasan pengeluar beras utama di Malaysia.</p>
+                    </div>
+                </div>
+
+                <h3 style="color: #4a90e2; margin-top: 30px; margin-bottom: 15px;">Aktiviti yang dilakukan</h3>
+                <ul>
+                    <li>Lawatan Galeri Padi Sekinchan</li>
+                    <li>Pembelajaran tentang Industri Pertanian Padi</li>
+                    <li>Demonstrasi Pemprosesan Beras</li>
+                    <li>Pengalaman Sawah Padi Sekinchan</li>
+                    <li>Membeli Produk Tempatan</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Video Storyline Final -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-text">
+                <h2>5.0 Jalan Cerita Video</h2>
+                
+                <h3 style="color: #4a90e2; margin-bottom: 20px;">Pendapat Pengunjung (optional):</h3>
+                <ul>
+                    <li>Temuraman ringkas pengunjung mengenai pengalaman pembelajaran di galeri dan kepentingan industri pertanian padi.</li>
+                    <li>Menunjukkan kepuasan pengunjung terhadap kemudahan pendidikan dan pengalaman yang diperoleh di galeri.</li>
+                </ul>
+
+                <h3 style="color: #4a90e2; margin-top: 30px; margin-bottom: 20px;">Penutupan Video:</h3>
+                <ul>
+                    <li>Mengetahui institusi penting yang memelihara, memproses dan mendidik masyarakat tentang industri padi di Malaysia.</li>
+                    <li>Mengajak penonton untuk menjaga dan mengetahui kepentingan industri pertanian tempatan.</li>
+                    <li>Merangkum isi video secara ringkas</li>
+                </ul>
+
+                <div style="background: rgba(74, 144, 226, 0.1); padding: 25px; border-radius: 10px; margin-top: 30px; border-left: 5px solid #4a90e2;">
+                    <h4 style="color: #4a90e2; margin-bottom: 15px;">Mesej Utama Video:</h4>
+                    <p>Galeri Padi Sekinchan bukan sahaja sebagai tempat pembelajaran tentang pertanian, tetapi juga sebagai pusat pemeliharaan warisan industri padi Malaysia yang penting untuk generasi akan datang.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Conclusion -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-text">
+                <h2>6.0 Kesimpulan</h2>
+                <div class="conclusion-text">
+                    Dalam kesimpulannya, Galeri Padi Sekinchan bukan sahaja tempat untuk mempelajari proses pertanian padi, tetapi juga pusat pembelajaran interaktif yang memperkenalkan industri pertanian Malaysia secara mendalam. Galeri Padi Sekinchan bukan sahaja menjadi tarikan pelancongan pendidikan, tetapi juga sebagai pusat pembelajaran yang berinformasi, relevan dan bernilai tinggi dalam usaha memartabatkan industri pertanian dan warisan Malaysia.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Thank You -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 style="color: #4a90e2;">Terima Kasih</h1>
+                <h3 style="margin-top: 40px; color: #667eea;">Galeri Padi Sekinchan</h3>
+                <h3 style="color: #666;">Destinasi Pembelajaran Pertanian Terbaik</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: References -->
+    <div class="slide">
+        <div class="slide-content">
+            <div class="content-text">
+                <h2>Rujukan</h2>
+                <div class="references">
+                    <ul>
+                        <li>PLS Marketing (M) Sdn Bhd. (2023). Galeri Padi Sekinchan - Pembelajaran Industri Pertanian. Sekinchan, Selangor.</li>
+                        <li>Visit Sekinchan. (2024). Panduan Pelawat Galeri Padi Sekinchan. Available at: https://visit-sekinchan.com/shops-in-sekinchan/paddy-gallery.html (Accessed: 18 September 2025).</li>
+                        <li>Trusted Malaysia. (2024). Exploring Sekinchan's Paddy Gallery - Panduan Komprehensif. Available at: https://www.trustedmalaysia.com/guide-to-paddy-gallery/ (Accessed: 18 September 2025).</li>
+                        <li>Trevallog. (2024). Visiting Paddy Gallery at Sekinchan, Malaysia - Pengalaman Pelawat. Available at: https://trevallog.com/sekinchan-paddy-gallery/ (Accessed: 18 September 2025).</li>
+                        <li>Ummi Around Malaysia. (2024). Rice Museum, Sekinchan – Learning How Malaysia's Staple Food is Produced. Available at: https://ummiaroundmalaysia.com/paddy-gallery-sekinchan/ (Accessed: 18 September 2025).</li>
+                        <li>Lembaga Pertubuhan Peladang Selangor. (2023). Industri Padi dan Beras Selangor - Warisan dan Kemajuan. Laporan Tahunan Pertanian Selangor.</li>
+                        <li>Kementerian Pertanian dan Industri Makanan Malaysia. (2024). Statistik Pengeluaran Padi dan Beras Malaysia. Putrajaya: MAFI.</li>
+                        <li>Jabatan Pertanian Selangor. (2024). Program Pelancongan Agro Selangor - Galeri Padi Sekinchan. Kajang: Jabatan Pertanian Negeri Selangor.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Sebelum</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Seterusnya →</button>
+    </div>
+
+    <!-- Slide Counter -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">12</span>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                currentSlideIndex = newIndex;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
